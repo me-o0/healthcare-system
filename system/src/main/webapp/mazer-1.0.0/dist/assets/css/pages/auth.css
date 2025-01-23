@@ -7,10 +7,10 @@ body {
 }
 #auth #auth-right {
   height: 100%;
-  background: url(../../images/bg/4853433.jpg), linear-gradient(90deg, #2d499d, #3f5491);
+  background: url(../../images/bg/4853433.jpg), linear-gradient(90deg, #88ddee, #99ddee);
 }
 #auth #auth-left {
-  padding: 5rem 8rem;
+  padding: 1rem 1rem;
 }
 #auth #auth-left .auth-title {
   font-size: 4rem;
@@ -22,7 +22,7 @@ body {
   color: #a8aebb;
 }
 #auth #auth-left .auth-logo {
-  margin-bottom: 7rem;
+  margin-bottom: 3rem;
 }
 #auth #auth-left .auth-logo img {
   height: 2rem;
@@ -33,5 +33,6 @@ body {
   }
 }
 .auth-title {
-  white-space: nowrap;
+  white-space: nowrap !important;
+  font-size: 50px !important;
 }

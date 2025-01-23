@@ -208,27 +208,27 @@
 }
 .btn.btn-light-primary {
   background-color: #ebf3ff;
-  color: #002152;
+  color: #fff;
 }
 .btn.btn-light-secondary {
   background-color: #e6eaee;
-  color: #181e24;
+  color: #fff;
 }
 .btn.btn-light-success {
   background-color: #d2ffe8;
-  color: #00391c;
+  color: #fff;
 }
 .btn.btn-light-danger {
   background-color: #ffdede;
-  color: #450000;
+  color: #fff;
 }
 .btn.btn-light-warning {
   background-color: #fffdd8;
-  color: #3f3c00;
+  color: #fff;
 }
 .btn.btn-light-info {
   background-color: #e6fdff;
-  color: #00474d;
+  color: #fff;
 }
 .btn.btn-danger,
 .btn.btn-info,
@@ -239,7 +239,7 @@
   color: #fff;
 }
 .btn.btn-light {
-  color: #607080;
+  color: #fff;
 }
 .btn.btn-dark {
   color: #fff;
@@ -247,9 +247,7 @@
 .btn-block {
   width: 100%;
 }
-.btn-group:not(.dropdown) .btn:not([class*="btn-"]) {
-  border: 1px solid #dfe3e7;
-}
+
 .btn-group > .btn {
   border-radius: 0.267rem;
 }
@@ -1289,4 +1287,8 @@ a {
 }
 .icon-mid:before {
   vertical-align: middle;
+}
+.logo {
+  height: 6% !important;
+  width: auto !important;
 }
