@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import dao.UserDao;
 import utils.PasswordUtils;
 
+
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,22 +32,22 @@ public class LoginServlet extends HttpServlet {
                 // アカウントロックの確認
                 if (userDao.isAccountLocked(username)) {
                     request.setAttribute("error", "account_locked");
-                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
                     return;
                 }
                 
                 // ログイン成功、セッションにユーザー情報を保存
                 session.setAttribute("username", username);
-                response.sendRedirect("dashboard.jsp"); // ダッシュボードにリダイレクト
+                response.sendRedirect("/WEB-INF/view/dashboard.jsp"); // ダッシュボードにリダイレクト
             } else {
                 // パスワードが一致しない場合
                 userDao.incrementFailedAttempts(username);
                 request.setAttribute("error", "invalid_credentials");
-                request.getRequestDispatcher("/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("error", "user_not_found");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
         }
     }
 }
