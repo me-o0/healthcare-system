@@ -1,21 +1,24 @@
-// アカウント登録ボタンを押したときの処理
-function register() {
-  // ユーザーID、パスワード、確認用パスワードを取得
-  const userId = document.getElementById("user-id").value;
-  const userPass = document.getElementById("user-pass").value;
-  const confirmPass = document.getElementById("confirm-pass").value;
+document.addEventListener("DOMContentLoaded", function() {
+  const registerForm = document.querySelector('form[action="register"]');
+  
+  // 登録フォームの送信時にバリデーションを実施
+  registerForm.addEventListener("submit", function(event) {
+    const password = document.querySelector('input[name="password"]').value;
+    const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
 
-  // パスワードが一致しているか確認
-  if (userPass !== confirmPass) {
-    alert("パスワードが一致しません");
-    return;
-  }
+    // パスワードが一致しない場合
+    if (password !== confirmPassword) {
+      event.preventDefault(); // フォーム送信をキャンセル
+      alert("パスワードが一致しません。");
+    }
 
-  // 仮のアカウント登録処理
-  if (userId && userPass) {
-    alert("アカウント登録成功");
-    // サーバーとの通信処理を追加する
-  } else {
-    alert("すべての項目を入力してください");
-  }
-}
+    // 必要項目の空欄チェック
+    const email = document.querySelector('input[name="email"]').value;
+    const username = document.querySelector('input[name="username"]').value;
+
+    if (email.trim() === "" || username.trim() === "" || password.trim() === "") {
+      event.preventDefault(); // フォーム送信をキャンセル
+      alert("全てのフィールドを正しく入力してください。");
+    }
+  });
+});

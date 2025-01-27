@@ -5,13 +5,13 @@
     <!-- メタデータ、文字コード、ビューポートの設定 -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ログイン - 管理者ダッシュボード</title>
+    <title>アカウント登録 - 管理者ダッシュボード</title>
     <!-- フォントとスタイルシートの読み込み -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="assets/css/bootstrap.css" />
-    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
-    <link rel="stylesheet" href="assets/css/app.css" />
-    <link rel="stylesheet" href="assets/css/pages/auth.css" />
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/vendors/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="/css/app.css" />
+    <link rel="stylesheet" href="/css/pages/auth.css" />
   </head>
 
   <body>
@@ -24,11 +24,18 @@
             <div class="auth-logo">
               <a href="index.jsp"><img class="logo" src="assets/images/logo/logo.png" alt="ロゴ" /></a>
             </div>
-            <h1 class="auth-title">ログイン</h1>
-            <p class="auth-subtitle mb-5">登録した情報を入力。</p>
+            <h1 class="auth-title">アカウント<br />登録</h1>
+            <p class="auth-subtitle mb-5">登録情報を入力。</p>
 
-            <!-- ログインフォーム -->
-            <form action="login" method="post">
+            <!-- 登録フォーム -->
+            <form action="register" method="post">
+              <!-- メールアドレス入力 -->
+              <div class="form-group position-relative has-icon-left mb-4">
+                <input type="email" class="form-control form-control-xl" placeholder="メールアドレス" name="email" required />
+                <div class="form-control-icon">
+                  <i class="bi bi-envelope"></i>
+                </div>
+              </div>
               <!-- ユーザー名入力 -->
               <div class="form-group position-relative has-icon-left mb-4">
                 <input type="text" class="form-control form-control-xl" placeholder="ユーザー名" name="username" required />
@@ -43,18 +50,19 @@
                   <i class="bi bi-shield-lock"></i>
                 </div>
               </div>
-              <!-- ログイン状態を保持するチェックボックス -->
-              <div class="form-check form-check-lg d-flex align-items-end">
-                <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault" />
-                <label class="form-check-label text-gray-600" for="flexCheckDefault"> ログイン状態を保持する </label>
+              <!-- 確認用パスワード入力 -->
+              <div class="form-group position-relative has-icon-left mb-4">
+                <input type="password" class="form-control form-control-xl" placeholder="確認用パスワード" name="confirmPassword" required />
+                <div class="form-control-icon">
+                  <i class="bi bi-shield-lock"></i>
+                </div>
               </div>
-              <!-- ログインボタン -->
-              <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">ログイン</button>
+              <!-- 登録ボタン -->
+              <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">ログイン情報を登録</button>
             </form>
-            <!-- アカウントがない場合やパスワード忘れのリンク -->
+            <!-- 既存のアカウントを持っている場合のリンク -->
             <div class="text-center mt-5 text-lg fs-4">
-              <p class="text-gray-600">アカウントをお持ちでないですか？ <a href="auth-register.jsp" class="font-bold">登録する</a></p>
-              <p><a class="font-bold" href="auth-forgot-password.jsp">パスワードを忘れた場合</a></p>
+              <p class="text-gray-600">既にアカウントをお持ちですか？<br /><a href="auth-login.jsp" class="font-bold">ログイン</a>。</p>
             </div>
           </div>
         </div>

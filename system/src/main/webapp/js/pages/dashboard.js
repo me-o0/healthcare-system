@@ -92,14 +92,7 @@ var optionsEurope = {
 	},
 };
 
-let optionsAmerica = {
-	...optionsEurope,
-	colors: ['#008b75'],
-}
-let optionsIndonesia = {
-	...optionsEurope,
-	colors: ['#dc3545'],
-}
+
 
 
 

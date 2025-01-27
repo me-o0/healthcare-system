@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -8,10 +10,10 @@
     <title>アカウント登録 - 管理者ダッシュボード</title>
     <!-- フォントとスタイルシートの読み込み -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="assets/css/bootstrap.css" />
-    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
-    <link rel="stylesheet" href="assets/css/app.css" />
-    <link rel="stylesheet" href="assets/css/pages/auth.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/app.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pages/auth.css" />
   </head>
 
   <body>
@@ -22,10 +24,23 @@
           <div id="auth-left">
             <!-- ロゴ -->
             <div class="auth-logo">
-              <a href="index.jsp"><img class="logo" src="assets/images/logo/logo.png" alt="ロゴ" /></a>
+              <a href="index.jsp"><img class="auth-logo" src="${pageContext.request.contextPath}/images/logo/logo.png" alt="ロゴ" /></a>
             </div>
             <h1 class="auth-title">アカウント<br />登録</h1>
             <p class="auth-subtitle mb-5">登録情報を入力。</p>
+
+            <!-- エラーメッセージ -->
+            <c:if test="${not empty sessionScope.error}">
+              <div class="alert alert-danger">${sessionScope.error}</div>
+              <!-- エラーメッセージを表示したら、セッションから削除 -->
+              <c:remove var="error" />
+            </c:if>
+
+            <c:if test="${not empty sessionScope.success}">
+              <div class="alert alert-success">${sessionScope.success}</div>
+              <!-- 成功メッセージを表示したら、セッションから削除 -->
+              <c:remove var="success" />
+            </c:if>
 
             <!-- 登録フォーム -->
             <form action="register" method="post">
@@ -62,7 +77,7 @@
             </form>
             <!-- 既存のアカウントを持っている場合のリンク -->
             <div class="text-center mt-5 text-lg fs-4">
-              <p class="text-gray-600">既にアカウントをお持ちですか？<br /><a href="auth-login.jsp" class="font-bold">ログイン</a>。</p>
+              <p class="text-gray-600">既にアカウントをお持ちですか？<br /><a href="${pageContext.request.contextPath}/login" class="font-bold">ログイン</a>。</p>
             </div>
           </div>
         </div>
@@ -72,5 +87,6 @@
         </div>
       </div>
     </div>
+    <script src="${pageContext.request.contextPath}/js/register.js"></script>
   </body>
 </html>

@@ -1,7 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ja">
-  <!-- ページの言語を日本語に設定 -->
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,16 +9,13 @@
     <!-- フォントやスタイルシートのリンク -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="assets/css/bootstrap.css" />
-
-    <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-
-    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
-    <link rel="stylesheet" href="assets/css/app.css" />
-    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/iconly/bold.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/app.css" />
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/favicon.svg" type="image/x-icon" />
   </head>
-
   <body>
     <div id="app">
       <div id="sidebar" class="active">
@@ -510,18 +506,17 @@
             </div>
             <div class="float-end">
               <p>Created by <span class="text-primary">YourName</span></p>
-              <!-- 作成者情報 -->
             </div>
           </div>
         </footer>
       </div>
     </div>
-    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-    <script src="assets/vendors/apexcharts/apexcharts.js"></script>
-    <script src="assets/js/pages/dashboard.js"></script>
-
-    <script src="assets/js/main.js"></script>
+    <!-- 必要なJSファイル -->
+    <script src="${pageContext.request.contextPath}/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendors/apexcharts/apexcharts.js"></script>
+    <script src="${pageContext.request.contextPath}/js/pages/dashboard.js"></script>
+    <script src="${pageContext.request.contextPath}/js/main.js"></script>
   </body>
 </html>
