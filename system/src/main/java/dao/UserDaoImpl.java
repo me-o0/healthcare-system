@@ -16,20 +16,22 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public String getUserPassword(String username) {
-        try (Connection connection = DatabaseUtils.getConnection()) {
-            String sql = "SELECT password FROM users WHERE username = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+        String sql = "SELECT password FROM users WHERE username = ?";
+        try (Connection connection = DatabaseUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
-
+            
             if (resultSet.next()) {
-                return resultSet.getString("password");
+                return resultSet.getString("password");  // ハッシュ化されたパスワードを返す
             }
-            return null;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        
+        return null;  // ユーザーが存在しない場合
+    
     }
 
     @Override

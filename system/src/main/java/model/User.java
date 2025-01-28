@@ -27,7 +27,9 @@ public class User {
         this.email = email;
         this.role = role;
         this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt; // 最初の作成時にupdatedAtも設定
+        this.failedAttempts = 0; // 初期値として失敗回数は0
+        this.accountLocked = false; // 初期状態ではロックされていない
     }
 
     // ゲッターとセッター
@@ -69,6 +71,11 @@ public class User {
 
     public void setFailedAttempts(int failedAttempts) {
         this.failedAttempts = failedAttempts;
+        // ログイン失敗回数が規定値を超えた場合にアカウントをロック
+        if (this.failedAttempts >= 3) { // 例えば3回以上失敗した場合
+            this.accountLocked = true;
+            this.lockTime = LocalDateTime.now(); // ロックされた時間を記録
+        }
     }
 
     public LocalDateTime getLockTime() {
@@ -148,3 +155,4 @@ public class User {
                 '}';
     }
 }
+

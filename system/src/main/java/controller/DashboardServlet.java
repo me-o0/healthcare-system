@@ -9,53 +9,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.DaoFactory;
-import dao.UserDao;
 import model.User;
+import service.UserService;
 
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public DashboardServlet() {
-        super();
-    }
+    private UserService userService;
 
     @Override
+    public void init() throws ServletException {
+        super.init();
+        this.userService = new UserService();  // UserServiceを初期化
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("user") != null) {
+            User user = (User) session.getAttribute("user");
 
-        // セッションからユーザー名を取得
-        String username = (String) session.getAttribute("username");
+            // ユーザー情報を再取得
+            User detailedUser = userService.getUserByUsername(user.getUsername());
 
-        if (username == null) {
-            // ログインしていない場合、ログインページにリダイレクト
-            response.sendRedirect("login");
-            return;
-        }
-
-        try {
-            // DAOを利用してユーザー情報を取得
-            UserDao userDao = DaoFactory.getUserDao();
-            User user = userDao.getUserByUsername(username);
-
-            if (user == null) {
-                // ユーザー情報が見つからない場合、ログアウトしてログインページへ
-                session.invalidate();
+            if (detailedUser != null) {
+                request.setAttribute("username", detailedUser.getUsername());
+                request.setAttribute("role", detailedUser.getRole());
+                request.setAttribute("email", detailedUser.getEmail());
+                request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp").forward(request, response);
+            } else {
                 response.sendRedirect("login");
-                return;
             }
-
-            // ユーザー情報をリクエストに設定
-            request.setAttribute("user", user);
-
-            // JSPにフォワードしてダッシュボードを表示
-            request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp").forward(request, response);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            // エラー時にエラーページまたはログインページへリダイレクト
-            response.sendRedirect("error.jsp");
+        } else {
+            response.sendRedirect("login");
         }
     }
 
@@ -64,4 +50,6 @@ public class DashboardServlet extends HttpServlet {
         doGet(request, response);
     }
 }
+
+
 

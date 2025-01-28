@@ -25,7 +25,7 @@
             <h1 class="auth-title">ログイン</h1>
             <p class="auth-subtitle mb-5">登録した情報を入力。</p>
 
-            <form action="login" method="post">
+            <form action="${pageContext.request.contextPath}/login" method="post">
               <div class="form-group position-relative has-icon-left mb-4">
                 <input type="text" class="form-control form-control-xl" placeholder="ユーザー名" name="username" required />
                 <div class="form-control-icon">
@@ -42,15 +42,16 @@
                 <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault" />
                 <label class="form-check-label text-gray-600" for="flexCheckDefault"> ログイン状態を保持する </label>
               </div>
-              <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">ログイン</button>
+              <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">ログイン</button>
             </form>
 
-<!-- エラーメッセージ -->
-            <c:if test="${not empty sessionScope.error}">
-              <div class="alert alert-danger mt-3">${sessionScope.error}</div>
-              <!-- エラーメッセージを表示したら、セッションから削除 -->
-              <c:remove var="error" />
-            </c:if>
+<!-- エラーメッセージ表示 -->
+<% if (request.getAttribute("errorMessage") != null) { %>
+    <div class="alert alert-danger">
+        <%= request.getAttribute("errorMessage") %>
+    </div>
+<% } %>
+
             <div class="text-center mt-5 text-lg fs-4">
               <p class="text-gray-600">アカウントをお持ちでないですか？ <a href="${pageContext.request.contextPath}/register" class="font-bold">登録する</a></p>
               <p><a class="font-bold" href="auth-forgot-password.jsp">パスワードを忘れた場合</a></p>
@@ -62,6 +63,5 @@
         </div>
       </div>
     </div>
-    <script src="${pageContext.request.contextPath}/js/login.js"></script>
   </body>
 </html>

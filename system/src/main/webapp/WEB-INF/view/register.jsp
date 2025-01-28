@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -29,21 +28,14 @@
             <h1 class="auth-title">アカウント<br />登録</h1>
             <p class="auth-subtitle mb-5">登録情報を入力。</p>
 
-            <!-- エラーメッセージ -->
-            <c:if test="${not empty sessionScope.error}">
-              <div class="alert alert-danger">${sessionScope.error}</div>
-              <!-- エラーメッセージを表示したら、セッションから削除 -->
-              <c:remove var="error" />
-            </c:if>
-
-            <c:if test="${not empty sessionScope.success}">
-              <div class="alert alert-success">${sessionScope.success}</div>
-              <!-- 成功メッセージを表示したら、セッションから削除 -->
-              <c:remove var="success" />
-            </c:if>
-
+<!-- エラーメッセージ表示 -->
+<% if (request.getAttribute("errorMessage") != null) { %>
+    <div class="alert alert-danger">
+        <%= request.getAttribute("errorMessage") %>
+    </div>
+<% } %>
             <!-- 登録フォーム -->
-            <form action="register" method="post">
+            <form action="${pageContext.request.contextPath}/register" method="POST">
               <!-- メールアドレス入力 -->
               <div class="form-group position-relative has-icon-left mb-4">
                 <input type="email" class="form-control form-control-xl" placeholder="メールアドレス" name="email" required />
@@ -73,7 +65,7 @@
                 </div>
               </div>
               <!-- 登録ボタン -->
-              <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">ログイン情報を登録</button>
+              <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">ログイン情報を登録</button>
             </form>
             <!-- 既存のアカウントを持っている場合のリンク -->
             <div class="text-center mt-5 text-lg fs-4">
@@ -87,6 +79,5 @@
         </div>
       </div>
     </div>
-    <script src="${pageContext.request.contextPath}/js/register.js"></script>
   </body>
 </html>
