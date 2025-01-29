@@ -7,7 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import model.User;
 import service.UserService;
 
 @WebServlet("/login")
@@ -37,8 +39,15 @@ public class LoginServlet extends HttpServlet {
         boolean isValid = userService.login(username, password);
 
         if (isValid) {
-            // 認証成功時、ダッシュボードにリダイレクト
-            response.sendRedirect("dashboard");
+            // ユーザー情報を取得
+            User user = userService.getUserByUsername(username);
+
+            // ログイン成功時、セッションにユーザー情報を保存
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);  // セッションにユーザー情報をセット
+
+            // ダッシュボードにリダイレクト
+            response.sendRedirect(request.getContextPath() + "/dashboard");
         } else {
             // 認証失敗時、エラーメッセージを表示
             request.setAttribute("errorMessage", "ユーザー名またはパスワードが間違っています。");
@@ -46,6 +55,9 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
+
+
+
 
 
 

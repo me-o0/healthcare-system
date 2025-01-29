@@ -34,39 +34,53 @@
         <%= request.getAttribute("errorMessage") %>
     </div>
 <% } %>
-            <!-- 登録フォーム -->
-            <form action="${pageContext.request.contextPath}/register" method="POST">
-              <!-- メールアドレス入力 -->
-              <div class="form-group position-relative has-icon-left mb-4">
-                <input type="email" class="form-control form-control-xl" placeholder="メールアドレス" name="email" required />
-                <div class="form-control-icon">
-                  <i class="bi bi-envelope"></i>
-                </div>
-              </div>
-              <!-- ユーザー名入力 -->
-              <div class="form-group position-relative has-icon-left mb-4">
-                <input type="text" class="form-control form-control-xl" placeholder="ユーザー名" name="username" required />
-                <div class="form-control-icon">
-                  <i class="bi bi-person"></i>
-                </div>
-              </div>
-              <!-- パスワード入力 -->
-              <div class="form-group position-relative has-icon-left mb-4">
-                <input type="password" class="form-control form-control-xl" placeholder="パスワード" name="password" required />
-                <div class="form-control-icon">
-                  <i class="bi bi-shield-lock"></i>
-                </div>
-              </div>
-              <!-- 確認用パスワード入力 -->
-              <div class="form-group position-relative has-icon-left mb-4">
-                <input type="password" class="form-control form-control-xl" placeholder="確認用パスワード" name="confirmPassword" required />
-                <div class="form-control-icon">
-                  <i class="bi bi-shield-lock"></i>
-                </div>
-              </div>
-              <!-- 登録ボタン -->
-              <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">ログイン情報を登録</button>
-            </form>
+<!-- 登録フォーム -->
+<form action="${pageContext.request.contextPath}/register" method="POST" onsubmit="return validatePasswords()">
+  <!-- メールアドレス入力 -->
+  <div class="form-group position-relative has-icon-left mb-4">
+    <input type="email" class="form-control form-control-xl" placeholder="メールアドレス" name="email" required />
+    <div class="form-control-icon">
+      <i class="bi bi-envelope"></i>
+    </div>
+  </div>
+  <!-- ユーザー名入力 -->
+  <div class="form-group position-relative has-icon-left mb-4">
+    <input type="text" class="form-control form-control-xl" placeholder="ユーザー名" name="username" required />
+    <div class="form-control-icon">
+      <i class="bi bi-person"></i>
+    </div>
+  </div>
+  <!-- パスワード入力 -->
+  <div class="form-group position-relative has-icon-left mb-4">
+    <input type="password" class="form-control form-control-xl" placeholder="パスワード" name="password" required />
+    <div class="form-control-icon">
+      <i class="bi bi-shield-lock"></i>
+    </div>
+  </div>
+  <!-- 確認用パスワード入力 -->
+  <div class="form-group position-relative has-icon-left mb-4">
+    <input type="password" class="form-control form-control-xl" placeholder="確認用パスワード" name="confirmPassword" required />
+    <div class="form-control-icon">
+      <i class="bi bi-shield-lock"></i>
+    </div>
+  </div>
+  <!-- 登録ボタン -->
+  <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">ログイン情報を登録</button>
+</form>
+
+<script>
+  function validatePasswords() {
+    const password = document.querySelector('input[name="password"]').value;
+    const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
+    
+    if (password !== confirmPassword) {
+      alert("パスワードと確認用パスワードが一致しません。");
+      return false; // フォーム送信をキャンセル
+    }
+    return true; // 一致している場合はフォーム送信を許可
+  }
+</script>
+
             <!-- 既存のアカウントを持っている場合のリンク -->
             <div class="text-center mt-5 text-lg fs-4">
               <p class="text-gray-600">既にアカウントをお持ちですか？<br /><a href="${pageContext.request.contextPath}/login" class="font-bold">ログイン</a>。</p>

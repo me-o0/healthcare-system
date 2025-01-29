@@ -9,19 +9,31 @@ public class UserService {
     private UserDaoImpl userDao;
 
     public UserService() {
-        this.userDao = new UserDaoImpl();
+        this.userDao = new UserDaoImpl();  // UserDaoを初期化
     }
 
     // ログイン処理
     public boolean login(String username, String password) {
-        // ユーザーのハッシュ化されたパスワードを取得
+        // ユーザーのハッシュ化されたパスワードをデータベースから取得
         String storedPassword = userDao.getUserPassword(username);
-        
-        // ハッシュ化されたパスワードと入力されたパスワードを照合
-        if (storedPassword != null && PasswordUtils.verifyPassword(password, storedPassword)) {
+
+        // パスワードが存在しない場合はエラー
+        if (storedPassword == null || storedPassword.isEmpty()) {
+            throw new IllegalArgumentException("ユーザーのパスワードが存在しません");
+        }
+
+        // ユーザーが入力したパスワードが空かどうかを確認
+        if (password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("パスワードは空であってはいけません");
+        }
+
+        // パスワードとハッシュ化されたパスワードを照合
+        boolean isPasswordValid = PasswordUtils.verifyPassword(password, storedPassword);
+        System.out.println("Password valid: " + isPasswordValid);  // デバッグ用
+
+        // ハッシュ化されたパスワードが一致した場合、ログイン成功
+        if (isPasswordValid) {
             User user = userDao.getUserByUsername(username);
-            
-            // ユーザーが存在し、アカウントがロックされていない場合
             if (user != null && !user.isAccountLocked()) {
                 return true;  // ログイン成功
             }
@@ -51,16 +63,6 @@ public class UserService {
     }
 
 
-    // パスワードリセット処理
-    public String initiatePasswordReset(String email) {
-        // メールが既に登録されているか確認
-        if (!userDao.checkIfEmailExists(email)) {
-            return null; // メールが存在しない場合
-        }
-        
-        // リセットトークンを生成
-        return userDao.generateResetToken(email);
-    }
 
     // ログイン履歴を保存
     public boolean saveLoginHistory(int userId, String ipAddress, String status) {
@@ -76,9 +78,9 @@ public class UserService {
     public boolean resetFailedAttempts(String username) {
         return userDao.resetFailedAttempts(username);
     }
-
-
 }
+
+
 
 
 
