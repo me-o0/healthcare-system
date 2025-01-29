@@ -13,16 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.FoodDAO;
+import dao.FoodDAOFactory;
 import dao.MealDAO;
 import dao.MealDAOFactory;
+import model.Food;
 import model.Meal;
 import model.MealFood;
+import model.MealSummary;
 import model.User;
 
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-    // GETリクエストを処理
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // セッションからユーザー情報を取得
@@ -35,21 +39,25 @@ public class DashboardServlet extends HttpServlet {
             return;
         }
 
-        // ユーザー情報をリクエストスコープに設定
-        request.setAttribute("user", user);
+        // FoodDAOのインスタンスを取得し、食品データを取得
+        FoodDAO foodDAO = FoodDAOFactory.getFoodDAO();
+        List<Food> foodList = foodDAO.getAllFoods();
+        request.setAttribute("foodList", foodList);
 
-        // ダッシュボードページを表示する（食事履歴など）
+        // MealDAOのインスタンスを取得し、食事履歴を取得
         MealDAO mealDAO = MealDAOFactory.getMealDAO();
-        List<Meal> meals = mealDAO.getMealsByUserId(user.getId());  // ユーザーの食事履歴を取得
-
-        // 食事履歴をリクエストスコープに設定
+        List<Meal> meals = mealDAO.getMealsByUserId(user.getId());
         request.setAttribute("meals", meals);
+
+        // 日ごとの栄養素集計を取得
+        List<MealSummary> mealSummaries = mealDAO.getDailyNutritionSummaryByUserId(user.getId());
+        request.setAttribute("mealSummaries", mealSummaries);
 
         // ダッシュボードページを表示
         request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp").forward(request, response);
     }
 
- // POSTリクエストを処理
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // セッションからユーザー情報を取得
@@ -66,7 +74,7 @@ public class DashboardServlet extends HttpServlet {
         String mealType = request.getParameter("meal_type");
         String mealSource = request.getParameter("meal_source");
         String notes = request.getParameter("notes");
-        String mealDateStr = request.getParameter("meal_date");  // meal_dateを取得
+        String mealDateStr = request.getParameter("meal_date"); // meal_dateを取得
 
         // mealDateをTimestamp型に変換
         Timestamp mealDate = null;
@@ -75,7 +83,6 @@ public class DashboardServlet extends HttpServlet {
             mealDate = new Timestamp(sdf.parse(mealDateStr).getTime());
         } catch (Exception e) {
             e.printStackTrace();
-            // エラーハンドリング（例: 日付形式が無効）
         }
 
         // 食品情報を取得（複数の食品が登録されることを想定）
@@ -88,7 +95,7 @@ public class DashboardServlet extends HttpServlet {
         meal.setMealType(mealType);
         meal.setMealSource(mealSource);
         meal.setNotes(notes);
-        meal.setMealTime(mealDate);  // mealDateを設定
+        meal.setMealTime(mealDate);  // mealTimeにmealDateを設定
 
         // 食品情報をMealFoodオブジェクトに設定
         List<MealFood> mealFoods = new ArrayList<>();
@@ -116,4 +123,3 @@ public class DashboardServlet extends HttpServlet {
         }
     }
 }
-

@@ -10,108 +10,126 @@ import java.util.List;
 
 import model.Meal;
 import model.MealFood;
+import model.MealSummary;
 import utils.DatabaseUtils;
 
 public class MealDAOImpl implements MealDAO {
 
     @Override
     public boolean save(Meal meal) {
-        // 食事情報を保存する処理
         String mealSql = "INSERT INTO meals (user_id, meal_type, meal_date, meal_time, meal_source, notes) VALUES (?, ?, ?, NOW(), ?, ?)";
-        
-        try (Connection conn = DatabaseUtils.getConnection()) {
-            // 食事データを挿入
-            try (PreparedStatement stmt = conn.prepareStatement(mealSql, Statement.RETURN_GENERATED_KEYS)) {
-                stmt.setInt(1, meal.getUserId());
-                stmt.setString(2, meal.getMealType());
-                stmt.setString(3, meal.getMealDate());  // meal_date を追加
-                stmt.setString(4, meal.getMealSource());
-                stmt.setString(5, meal.getNotes());
 
-                int rowsAffected = stmt.executeUpdate();  // 挿入した行数を取得
+        try (Connection conn = DatabaseUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(mealSql, Statement.RETURN_GENERATED_KEYS)) {
 
-                // 挿入が成功したかチェック
-                if (rowsAffected > 0) {
-                    // 挿入した食事のIDを取得
-                    ResultSet generatedKeys = stmt.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        int mealId = generatedKeys.getInt(1);
-                        // 食品の保存処理を行う
-                        return saveMealFoods(meal.getMealFoods(), mealId); // 食品情報の保存
-                    }
+            stmt.setInt(1, meal.getUserId());
+            stmt.setString(2, meal.getMealType());
+            stmt.setTimestamp(3, meal.getMealDate());
+            stmt.setString(4, meal.getMealSource());
+            stmt.setString(5, meal.getNotes());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int mealId = generatedKeys.getInt(1);
+                    return saveMealFoods(meal.getMealFoods(), mealId);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
-        return false;  // 挿入失敗
+        return false;
     }
 
     @Override
     public boolean saveMealFoods(List<MealFood> mealFoods, int mealId) {
-        // meal_foodsテーブルに食品データを挿入
         String sql = "INSERT INTO meal_foods (meal_id, food_id, quantity) VALUES (?, ?, ?)";
-        
-        try (Connection conn = DatabaseUtils.getConnection()) {
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                for (MealFood mealFood : mealFoods) {
-                    stmt.setInt(1, mealId);  // 食事ID
-                    stmt.setInt(2, mealFood.getFoodId());  // 食品ID
-                    stmt.setDouble(3, mealFood.getQuantity());  // 食品の量
-                    stmt.addBatch();  // バッチに追加
-                }
 
-                // バッチ処理を実行
-                int[] rowsAffected = stmt.executeBatch();
+        try (Connection conn = DatabaseUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-                // rowsAffected配列内で影響を受けた行数が1件以上あれば成功
-                int totalRowsAffected = 0;
-                for (int row : rowsAffected) {
-                    totalRowsAffected += row;  // 合計影響行数を計算
-                }
-
-                return totalRowsAffected > 0;  // 1件以上の行が挿入された場合はtrue
+            for (MealFood mealFood : mealFoods) {
+                stmt.setInt(1, mealId);
+                stmt.setInt(2, mealFood.getFoodId());
+                stmt.setDouble(3, mealFood.getQuantity());
+                stmt.addBatch();
             }
+
+            int[] rowsAffected = stmt.executeBatch();
+            return rowsAffected.length > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     @Override
     public List<Meal> getMealsByUserId(int userId) {
         List<Meal> meals = new ArrayList<>();
-        String sql = "SELECT id, meal_type, meal_date, meal_time, meal_source, notes FROM meals WHERE user_id = ?";
-        
-        try (Connection conn = DatabaseUtils.getConnection()) {
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setInt(1, userId);
-                ResultSet rs = stmt.executeQuery();
+        String sql = "SELECT id, meal_type, meal_date, meal_time, meal_source, notes FROM meals WHERE user_id = ? ORDER BY meal_date DESC";
 
-                while (rs.next()) {
-                    Meal meal = new Meal();
-                    meal.setMealId(rs.getInt("id"));
-                    meal.setMealType(rs.getString("meal_type"));
-                    meal.setMealDate(rs.getString("meal_date"));  // meal_date を設定
-                    meal.setMealTime(rs.getTimestamp("meal_time"));
-                    meal.setMealSource(rs.getString("meal_source"));
-                    meal.setNotes(rs.getString("notes"));
+        try (Connection conn = DatabaseUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-                    // この食事に関連する食品を取得する（必要に応じて実装）
-                    // meal.setMealFoods(fetchMealFoodsForMeal(meal.getId()));  // 例: fetchMealFoodsForMeal() メソッドを実装して食品を取得
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
 
-                    meals.add(meal);
-                }
+            while (rs.next()) {
+                Meal meal = new Meal();
+                meal.setMealId(rs.getInt("id"));
+                meal.setMealType(rs.getString("meal_type"));
+                meal.setMealDate(rs.getTimestamp("meal_date"));
+                meal.setMealTime(rs.getTimestamp("meal_time"));
+                meal.setMealSource(rs.getString("meal_source"));
+                meal.setNotes(rs.getString("notes"));
+                meals.add(meal);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return meals;
     }
+
+    public List<MealSummary> getDailyNutritionSummaryByUserId(int userId) {
+        List<MealSummary> summaryList = new ArrayList<>();
+
+        String sql = """
+            SELECT 
+                meal.meal_time AS meal_time,  -- meal_timeをそのまま使用
+                SUM(food.calories * meal_food.quantity) AS total_calories,
+                SUM(food.protein * meal_food.quantity) AS total_protein,
+                SUM(food.fat * meal_food.quantity) AS total_fat,
+                SUM(food.carbs * meal_food.quantity) AS total_carbs
+            FROM meal
+            JOIN meal_food ON meal.meal_id = meal_food.meal_id
+            JOIN food ON meal_food.food_id = food.food_id
+            WHERE meal.user_id = ?
+            GROUP BY meal_time
+            ORDER BY meal_time DESC;
+        """;
+
+        try (Connection conn = DatabaseUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    // meal_timeをTimestamp型で取得
+                    MealSummary summary = new MealSummary(
+                        rs.getTimestamp("meal_time"),  // meal_timeをTimestamp型で取得
+                        rs.getInt("total_calories"),
+                        rs.getInt("total_protein"),
+                        rs.getInt("total_fat"),
+                        rs.getInt("total_carbs")
+                    );
+                    summaryList.add(summary);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return summaryList;
+    }
 }
-
-
-
-
-

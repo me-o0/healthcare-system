@@ -1,10 +1,13 @@
 package model;
 
+import java.sql.Timestamp;
+
 public class MealFood {
     private int mealFoodId;
     private int mealId;
     private int foodId;
     private double quantity;
+    private Timestamp mealDate;  // 日付を追加
 
     // コンストラクタ
     public MealFood() {}
@@ -41,5 +44,12 @@ public class MealFood {
     public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
-}
 
+    public Timestamp getMealDate() {
+        return mealDate;
+    }
+
+    public void setMealDate(Timestamp mealDate) {
+        this.mealDate = mealDate;
+    }
+}

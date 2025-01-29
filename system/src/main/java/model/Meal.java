@@ -11,7 +11,7 @@ public class Meal {
     private String mealSource;
     private String notes;
     private List<MealFood> mealFoods;  // 食品とその量を保持するリスト
-    private String mealDate;  // meal_date 用のフィールドを追加
+    private Timestamp mealDate;  // meal_date 用のフィールドを Timestamp 型に変更
 
     // コンストラクタ
     public Meal() {}
@@ -73,15 +73,16 @@ public class Meal {
         this.mealFoods = mealFoods;
     }
 
-    // mealDate の getter と setter を追加
-    public String getMealDate() {
+    // mealDate の getter と setter を Timestamp 型に変更
+    public Timestamp getMealDate() {
         return mealDate;
     }
 
-    public void setMealDate(String mealDate) {
+    public void setMealDate(Timestamp mealDate) {
         this.mealDate = mealDate;
     }
 }
+
 
 
 

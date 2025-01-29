@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -19,25 +20,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/bootstrap-icons/bootstrap-icons.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/app.css" />
     <link rel="shortcut icon" href="${pageContext.request.contextPath}//images/favicon.svg" type="image/x-icon" />
-    <script>
-  function toggleFoodInput(mealType) {
-    const foodInputId = `food_input_${mealType}`;
-    const foodSelectId = `food_name_${mealType}`;
-    const caloriesGroupId = `calories-group-${mealType}`;
 
-    const foodInput = document.getElementById(foodInputId);
-    const foodSelect = document.getElementById(foodSelectId);
-    const caloriesGroup = document.getElementById(caloriesGroupId);
 
-    if (foodSelect.value === "" && foodInput.value !== "") {
-      caloriesGroup.style.display = "block";  // カロリー入力を表示
-    } else if (foodInput.value === "") {
-      caloriesGroup.style.display = "none";  // カロリー入力を非表示
-    } else {
-      caloriesGroup.style.display = "block";  // カロリー入力を表示
-    }
-  }
-</script>
+
+    
   </head>
   
   <body>
@@ -271,8 +257,8 @@
                           </div>
                         </div>
                         <div class="col-md-8">
-                          <h6 class="text-muted font-semibold">朝食</h6>
-                          <h6 class="font-extrabold mb-0">総カロリー</h6>
+                          <h6 class="text-muted font-semibold">クリックして記録</h6>
+                          <h6 class="font-extrabold mb-0">朝食</h6>
                         </div>
                       </div>
                     </div>
@@ -292,8 +278,8 @@
                           </div>
                         </div>
                         <div class="col-md-8">
-                          <h6 class="text-muted font-semibold">昼食</h6>
-                          <h6 class="font-extrabold mb-0">総カロリー</h6>
+                          <h6 class="text-muted font-semibold">クリックして記録</h6>
+                          <h6 class="font-extrabold mb-0">昼食</h6>
                         </div>
                       </div>
                     </div>
@@ -313,8 +299,8 @@
                           </div>
                         </div>
                         <div class="col-md-8">
-                          <h6 class="text-muted font-semibold">夕食</h6>
-                          <h6 class="font-extrabold mb-0">総カロリー</h6>
+                          <h6 class="text-muted font-semibold">クリックして記録</h6>
+                          <h6 class="font-extrabold mb-0">夕食</h6>
                         </div>
                       </div>
                     </div>
@@ -334,8 +320,8 @@
                           </div>
                         </div>
                         <div class="col-md-8">
-                          <h6 class="text-muted font-semibold">間食</h6>
-                          <h6 class="font-extrabold mb-0">総カロリー</h6>
+                          <h6 class="text-muted font-semibold">クリックして記録</h6>
+                          <h6 class="font-extrabold mb-0">間食</h6>
                         </div>
                       </div>
                     </div>
@@ -348,7 +334,7 @@
 
         <!-- 食事登録フォーム（朝食） -->
 <div class="collapse card" id="breakfastForm">
-  <form action="meal-register" method="post">
+  <form action="${pageContext.request.contextPath}/dashboard" method="post">
     <!-- 日付フィールドの追加 -->
     <div class="form-group">
       <label for="meal_date">日付</label>
@@ -378,7 +364,7 @@
 
 <!-- 食事登録フォーム（昼食） -->
 <div class="collapse card" id="lunchForm">
-  <form action="meal-register" method="post">
+  <form action="${pageContext.request.contextPath}/dashboard" method="post">
     <!-- 日付フィールドの追加 -->
     <div class="form-group">
       <label for="meal_date">日付</label>
@@ -408,7 +394,7 @@
 
 <!-- 食事登録フォーム（夕食） -->
 <div class="collapse card" id="dinnerForm">
-  <form action="meal-register" method="post">
+  <form action="${pageContext.request.contextPath}/dashboard" method="post">
     <!-- 日付フィールドの追加 -->
     <div class="form-group">
       <label for="meal_date">日付</label>
@@ -438,7 +424,7 @@
 
 <!-- 食事登録フォーム（間食） -->
 <div class="collapse card" id="snackForm">
-  <form action="meal-register" method="post">
+  <form action="${pageContext.request.contextPath}/dashboard" method="post">
     <!-- 日付フィールドの追加 -->
     <div class="form-group">
       <label for="meal_date">日付</label>
@@ -464,6 +450,86 @@
     <input type="hidden" name="meal_type" value="間食" />
   </form>
 </div>
+<div class="card">
+  <h4>日別栄養素合計</h4>
+  <table class="table table-bordered">
+      <thead>
+          <tr>
+              <th>日付</th>
+              <th>カロリー</th>
+              <th>たんぱく質 (g)</th>
+              <th>脂質 (g)</th>
+              <th>炭水化物 (g)</th>
+          </tr>
+      </thead>
+      <tbody>
+          <c:forEach var="summary" items="${mealSummaries}">
+              <tr>
+                  <td>${summary.mealTime}</td>
+                  <td>${summary.totalCalories}</td>
+                  <td>${summary.totalProtein}</td>
+                  <td>${summary.totalFat}</td>
+                  <td>${summary.totalCarbs}</td>
+              </tr>
+          </c:forEach>
+      </tbody>
+  </table>
+</div>
+
+<div id="nutritionChart" class="card">
+  <h4>日別栄養素推移</h4> 
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      // JSTL から JavaScript にデータを変換
+      var mealSummaries = [
+          <c:forEach var="summary" items="${mealSummaries}" varStatus="status">
+              {
+                  mealTime: "${summary.mealTime}",  // mealDate → mealTime に変更
+                  totalCalories: ${summary.totalCalories},
+                  totalProtein: ${summary.totalProtein},
+                  totalFat: ${summary.totalFat},
+                  totalCarbs: ${summary.totalCarbs}
+              }<c:if test="${!status.last}">,</c:if>
+          </c:forEach>
+      ];
+
+      // 日付・栄養素データを抽出
+      var dates = mealSummaries.map(item => {
+          // Timestamp を Date オブジェクトに変換し、YYYY-MM-DD 形式にフォーマット
+          var date = new Date(item.mealTime);
+          return date.toISOString().split('T')[0];  // ISO 形式の YYYY-MM-DD を取得
+      });
+      
+      var calories = mealSummaries.map(item => item.totalCalories);
+      var protein = mealSummaries.map(item => item.totalProtein);
+      var fat = mealSummaries.map(item => item.totalFat);
+      var carbs = mealSummaries.map(item => item.totalCarbs);
+
+      // ApexCharts のオプション設定
+      var options = {
+          chart: {
+              type: "line",
+              height: 350
+          },
+          series: [
+              { name: "カロリー", data: calories },
+              { name: "たんぱく質", data: protein },
+              { name: "脂質", data: fat },
+              { name: "炭水化物", data: carbs }
+          ],
+          xaxis: {
+              categories: dates  // 日付を x 軸に表示
+          }
+      };
+
+      // チャートをレンダリング
+      var chart = new ApexCharts(document.querySelector("#nutritionChart"), options);
+      chart.render();
+  });
+</script>
+
 
 
               <div class="row">
