@@ -24,7 +24,8 @@
 
 
     
-  </head>
+</head>
+
   
   <body>
     <div id="app">
@@ -235,486 +236,317 @@
             <i class="bi bi-justify fs-3"></i>
           </a>
         </header>
-
-       <div id="app">
-      <div class="page-heading">
-        <h3>食事登録</h3>
-      </div>
-
-      <div class="page-content">
-        <section class="row">
-          <div class="col-12 col-lg-9">
-            <div class="row">
-              <!-- 朝食 -->
-              <div class="col-6 col-lg-3 col-md-6">
-                <div class="card">
-                  <button class="card-btn" data-toggle="collapse" data-target="#breakfastForm" aria-expanded="false" aria-controls="breakfastForm">
-                    <div class="card-body px-3 py-4-5">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="stats-icon purple">
-                            <i class="bi-brightness-alt-high-fill"></i>
-                          </div>
-                        </div>
-                        <div class="col-md-8">
-                          <h6 class="text-muted font-semibold">クリックして記録</h6>
-                          <h6 class="font-extrabold mb-0">朝食</h6>
-                        </div>
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <!-- 昼食 -->
-              <div class="col-6 col-lg-3 col-md-6">
-                <div class="card">
-                  <button class="card-btn" data-toggle="collapse" data-target="#lunchForm" aria-expanded="false" aria-controls="lunchForm">
-                    <div class="card-body px-3 py-4-5">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="stats-icon blue">
-                            <i class="bi-brightness-high-fill"></i>
-                          </div>
-                        </div>
-                        <div class="col-md-8">
-                          <h6 class="text-muted font-semibold">クリックして記録</h6>
-                          <h6 class="font-extrabold mb-0">昼食</h6>
-                        </div>
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <!-- 夕食 -->
-              <div class="col-6 col-lg-3 col-md-6">
-                <div class="card">
-                  <button class="card-btn" data-toggle="collapse" data-target="#dinnerForm" aria-expanded="false" aria-controls="dinnerForm">
-                    <div class="card-body px-3 py-4-5">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="stats-icon green">
-                            <i class="bi-moon"></i>
-                          </div>
-                        </div>
-                        <div class="col-md-8">
-                          <h6 class="text-muted font-semibold">クリックして記録</h6>
-                          <h6 class="font-extrabold mb-0">夕食</h6>
-                        </div>
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <!-- 間食 -->
-              <div class="col-6 col-lg-3 col-md-6">
-                <div class="card">
-                  <button class="card-btn" data-toggle="collapse" data-target="#snackForm" aria-expanded="false" aria-controls="snackForm">
-                    <div class="card-body px-3 py-4-5">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="stats-icon red">
-                            <i class="bi-person-plus-fill"></i>
-                          </div>
-                        </div>
-                        <div class="col-md-8">
-                          <h6 class="text-muted font-semibold">クリックして記録</h6>
-                          <h6 class="font-extrabold mb-0">間食</h6>
-                        </div>
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 食事登録フォーム（朝食） -->
-<div class="collapse card" id="breakfastForm">
-  <form action="${pageContext.request.contextPath}/dashboard" method="post">
-    <!-- 日付フィールドの追加 -->
-    <div class="form-group">
-      <label for="meal_date">日付</label>
-      <input type="date" id="meal_date" name="meal_date" class="form-control meal" required />
-    </div>
-
-    <div class="form-group">
-      <label for="food_name">食品名</label>
-      <select id="food_name" name="food_id" class="form-control meal" required>
-        <option value="">食品を選択</option>
-        <c:forEach var="food" items="${foodList}">
-          <option value="${food.id}">${food.name}</option>
-        </c:forEach>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="quantity">数量（個）</label>
-      <input type="number" id="quantity" name="quantity" class="form-control meal" required />
-    </div>
-   
-
-    <button type="submit" class="btn btn-primary">登録する</button>
-    <input type="hidden" name="meal_type" value="朝食" />
-  </form>
-</div>
-
-<!-- 食事登録フォーム（昼食） -->
-<div class="collapse card" id="lunchForm">
-  <form action="${pageContext.request.contextPath}/dashboard" method="post">
-    <!-- 日付フィールドの追加 -->
-    <div class="form-group">
-      <label for="meal_date">日付</label>
-      <input type="date" id="meal_date" name="meal_date" class="form-control meal" required />
-    </div>
-
-    <div class="form-group">
-      <label for="food_name">食品名</label>
-      <select id="food_name" name="food_id" class="form-control meal" required>
-        <option value="">食品を選択</option>
-        <c:forEach var="food" items="${foodList}">
-          <option value="${food.id}">${food.name}</option>
-        </c:forEach>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="quantity">数量（個）</label>
-      <input type="number" id="quantity" name="quantity" class="form-control meal" required />
-    </div>
-
-
-    <button type="submit" class="btn btn-primary">登録する</button>
-    <input type="hidden" name="meal_type" value="昼食" />
-  </form>
-</div>
-
-<!-- 食事登録フォーム（夕食） -->
-<div class="collapse card" id="dinnerForm">
-  <form action="${pageContext.request.contextPath}/dashboard" method="post">
-    <!-- 日付フィールドの追加 -->
-    <div class="form-group">
-      <label for="meal_date">日付</label>
-      <input type="date" id="meal_date" name="meal_date" class="form-control meal" required />
-    </div>
-
-    <div class="form-group">
-      <label for="food_name">食品名</label>
-      <select id="food_name" name="food_id" class="form-control meal" required>
-        <option value="">食品を選択</option>
-        <c:forEach var="food" items="${foodList}">
-          <option value="${food.id}">${food.name}</option>
-        </c:forEach>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="quantity">数量（個）</label>
-      <input type="number" id="quantity" name="quantity" class="form-control meal" required />
-    </div>
-
-
-    <button type="submit" class="btn btn-primary">登録する</button>
-    <input type="hidden" name="meal_type" value="夕食" />
-  </form>
-</div>
-
-<!-- 食事登録フォーム（間食） -->
-<div class="collapse card" id="snackForm">
-  <form action="${pageContext.request.contextPath}/dashboard" method="post">
-    <!-- 日付フィールドの追加 -->
-    <div class="form-group">
-      <label for="meal_date">日付</label>
-      <input type="date" id="meal_date" name="meal_date" class="form-control meal" required />
-    </div>
-
-    <div class="form-group">
-      <label for="food_name">食品名</label>
-      <select id="food_name" name="food_id" class="form-control meal" required>
-        <option value="">食品を選択</option>
-        <c:forEach var="food" items="${foodList}">
-          <option value="${food.id}">${food.name}</option>
-        </c:forEach>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="quantity">数量（個）</label>
-      <input type="number" id="quantity" name="quantity" class="form-control meal" required />
-    </div>
-
-    <button type="submit" class="btn btn-primary">登録する</button>
-    <input type="hidden" name="meal_type" value="間食" />
-  </form>
-</div>
-<div class="card">
-  <h4>日別栄養素合計</h4>
-  <table class="table table-bordered">
-      <thead>
-          <tr>
-              <th>日付</th>
-              <th>カロリー</th>
-              <th>たんぱく質 (g)</th>
-              <th>脂質 (g)</th>
-              <th>炭水化物 (g)</th>
-          </tr>
-      </thead>
-      <tbody>
-          <c:forEach var="summary" items="${mealSummaries}">
-              <tr>
-                  <td>${summary.mealTime}</td>
-                  <td>${summary.totalCalories}</td>
-                  <td>${summary.totalProtein}</td>
-                  <td>${summary.totalFat}</td>
-                  <td>${summary.totalCarbs}</td>
-              </tr>
-          </c:forEach>
-      </tbody>
-  </table>
-</div>
-
-<div id="nutritionChart" class="card">
-  <h4>日別栄養素推移</h4> 
-</div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-      // JSTL から JavaScript にデータを変換
-      var mealSummaries = [
-          <c:forEach var="summary" items="${mealSummaries}" varStatus="status">
-              {
-                  mealTime: "${summary.mealTime}",  // mealDate → mealTime に変更
-                  totalCalories: ${summary.totalCalories},
-                  totalProtein: ${summary.totalProtein},
-                  totalFat: ${summary.totalFat},
-                  totalCarbs: ${summary.totalCarbs}
-              }<c:if test="${!status.last}">,</c:if>
-          </c:forEach>
-      ];
-
-      // 日付・栄養素データを抽出
-      var dates = mealSummaries.map(item => {
-          // Timestamp を Date オブジェクトに変換し、YYYY-MM-DD 形式にフォーマット
-          var date = new Date(item.mealTime);
-          return date.toISOString().split('T')[0];  // ISO 形式の YYYY-MM-DD を取得
-      });
-      
-      var calories = mealSummaries.map(item => item.totalCalories);
-      var protein = mealSummaries.map(item => item.totalProtein);
-      var fat = mealSummaries.map(item => item.totalFat);
-      var carbs = mealSummaries.map(item => item.totalCarbs);
-
-      // ApexCharts のオプション設定
-      var options = {
-          chart: {
-              type: "line",
-              height: 350
-          },
-          series: [
-              { name: "カロリー", data: calories },
-              { name: "たんぱく質", data: protein },
-              { name: "脂質", data: fat },
-              { name: "炭水化物", data: carbs }
-          ],
-          xaxis: {
-              categories: dates  // 日付を x 軸に表示
-          }
-      };
-
-      // チャートをレンダリング
-      var chart = new ApexCharts(document.querySelector("#nutritionChart"), options);
-      chart.render();
-  });
-</script>
-
-
-
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-header">
-                      <h4>健康度</h4>
-                    </div>
-                    <div class="card-body">
-                      <div id="chart-profile-visit"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 col-xl-4">
-                  <div class="card">
-                    <div class="card-header">
-                      <h4>比較分析</h4>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="d-flex align-items-center">
-                            <svg class="bi text-primary" width="32" height="32" fill="blue" style="width: 10px">
-                              <use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
-                            </svg>
-                            <h5 class="mb-0 ms-3">摂取カロリー</h5>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-0">862</h5>
-                        </div>
-                        <div class="col-12">
-                          <div id="chart-europe"></div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="d-flex align-items-center">
-                            <svg class="bi text-success" width="32" height="32" fill="blue" style="width: 10px">
-                              <use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
-                            </svg>
-                            <h5 class="mb-0 ms-3">消費カロリー</h5>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-0">375</h5>
-                        </div>
-                        <div class="col-12">
-                          <div id="chart-america"></div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="d-flex align-items-center">
-                            <svg class="bi text-danger" width="32" height="32" fill="blue" style="width: 10px">
-                              <use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
-                            </svg>
-                            <h5 class="mb-0 ms-3">体重推移</h5>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <h5 class="mb-0">1025</h5>
-                        </div>
-                        <div class="col-12">
-                          <div id="chart-indonesia"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-xl-8">
-                  <div class="card">
-                    <div class="card-header">
-                      <h4>最新の日記</h4>
-                    </div>
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-hover table-lg">
-                          <thead>
-                            <tr>
-                              <th>日付け</th>
-                              <th>内容</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td class="col-3">
-                                <div class="d-flex align-items-center">
-                                  <p class="font-bold ms-3 mb-0">日時</p>
-                                </div>
-                              </td>
-                              <td class="col-auto">
-                                <p class="mb-0">日記の内容を反映</p>
-                                <!-- "卒業おめでとうございます" -->
-                              </td>
-                            </tr>
-                            <tr>
-                              <td class="col-3">
-                                <div class="d-flex align-items-center">
-                                  <p class="font-bold ms-3 mb-0">日時</p>
-                                </div>
-                              </td>
-                              <td class="col-auto">
-                                <p class="mb-0">日記の内容を反映</p>
-                                <!-- デザインに関するフィードバック -->
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="px-4">
-                          <button class="btn btn-block mt-3">日記を投稿</button>
-                          <!-- 会話を始めるボタン -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-3">
-              <div class="card">
-                <div class="card-body py-4 px-5">
-                  <div class="d-flex align-items-center">
-                    <div class="avatar avatar-xl">
-                      <img src="${pageContext.request.contextPath}/images/faces/1.png" alt="Face 1" />
-                    </div>
-                    <div class="ms-3 name">
-                      <h5 class="font-bold">マイアカウント</h5>
-                      <h6 class="text-muted mb-0">@my_account</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header">
-                  <h4>最近のコメントユーザー</h4>
-                  <!-- ユーザーに届いた最新メッセージ -->
-                </div>
-                <div class="card-content pb-4">
-                  <div class="recent-message d-flex px-4 py-3">
-                    <div class="avatar avatar-lg">
-                      <img src="assets/images/faces/4.jpg" />
-                    </div>
-                    <div class="name ms-4">
-                      <h5 class="mb-1">鳳来 海斗</h5>
-                      <h6 class="text-muted mb-0">@___sea10</h6>
-                    </div>
-                  </div>
-                  <div class="recent-message d-flex px-4 py-3">
-                    <div class="avatar avatar-lg">
-                      <img src="assets/images/faces/5.jpg" />
-                    </div>
-                    <div class="name ms-4">
-                      <h5 class="mb-1">柏 紅葉</h5>
-                      <h6 class="text-muted mb-0">@pino123</h6>
-                    </div>
-                  </div>
-                  <div class="recent-message d-flex px-4 py-3">
-                    <div class="avatar avatar-lg">
-                      <img src="assets/images/faces/1.jpg" />
-                    </div>
-                    <div class="name ms-4">
-                      <h5 class="mb-1">瀬戸 結月</h5>
-                      <h6 class="text-muted mb-0">@yuzu_pm</h6>
-                    </div>
-                  </div>
-                  <div class="px-4">
-                    <button class="btn btn-block mt-3">トークを開始</button>
-                    <!-- 会話を始めるボタン -->
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header">
-                  <h4>今日の栄養バランス</h4>
-                </div>
-                <div class="card-body">
-                  <div id="chart-visitors-profile"></div>
-                </div>
-              </div>
-            </div>
-          </section>
+<body>
+    <div id="app">
+        <div class="page-heading">
+            <h3>食事登録</h3>
         </div>
+
+        <div class="page-content">
+            <section class="row">
+                <div class="col-12 col-lg-9">
+                    <div class="row">
+                        <!-- 朝食 -->
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <button class="card-btn" data-toggle="collapse" data-target="#breakfastForm" aria-expanded="false" aria-controls="breakfastForm">
+                                    <div class="card-body px-3 py-4-5">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="stats-icon purple">
+                                                    <i class="bi-brightness-alt-high-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h6 class="text-muted font-semibold">クリックして記録</h6>
+                                                <h6 class="font-extrabold mb-0">朝食</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 昼食 -->
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <button class="card-btn" data-toggle="collapse" data-target="#lunchForm" aria-expanded="false" aria-controls="lunchForm">
+                                    <div class="card-body px-3 py-4-5">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="stats-icon blue">
+                                                    <i class="bi-brightness-high-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h6 class="text-muted font-semibold">クリックして記録</h6>
+                                                <h6 class="font-extrabold mb-0">昼食</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 夕食 -->
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <button class="card-btn" data-toggle="collapse" data-target="#dinnerForm" aria-expanded="false" aria-controls="dinnerForm">
+                                    <div class="card-body px-3 py-4-5">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="stats-icon green">
+                                                    <i class="bi-moon"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h6 class="text-muted font-semibold">クリックして記録</h6>
+                                                <h6 class="font-extrabold mb-0">夕食</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 間食 -->
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <button class="card-btn" data-toggle="collapse" data-target="#snackForm" aria-expanded="false" aria-controls="snackForm">
+                                    <div class="card-body px-3 py-4-5">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="stats-icon red">
+                                                    <i class="bi-person-plus-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h6 class="text-muted font-semibold">クリックして記録</h6>
+                                                <h6 class="font-extrabold mb-0">間食</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 食事選択フォーム (データベースに登録済みの食事を選択) -->
+            <div id="breakfastForm" class="collapse card">
+                <form action="mealServlet" method="POST">
+                    <input type="hidden" name="meal_type" value="breakfast">
+                    <label for="meal_select">朝食を選んでください：</label>
+                    <select name="meal_id" id="meal_select" class="form-control">
+                        <c:forEach var="mealOption" items="${mealOptions}">
+                            <option value="${mealOption.foodId}">${mealOption.name} - カロリー: ${mealOption.calories} kcal</option>
+                        </c:forEach>
+                    </select>
+                    <label for="eat_date">食べた日：</label>
+                    <input type="date" name="eat_date" class="form-control" required>
+                    <input type="submit" value="朝食を記録" class="btn btn-primary mt-2">
+                </form>
+
+                <!-- 食事新規登録フォーム (朝食用) -->
+                <div class="mt-4 card">
+                    <h5>朝食新規登録</h5>
+                    <form action="mealServlet" method="POST">
+                        <input type="hidden" name="meal_type" value="breakfast">
+                        <div class="form-group">
+                            <label for="meal_name">食事名</label>
+                            <input type="text" name="meal_name" id="meal_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_calories">カロリー</label>
+                            <input type="number" name="meal_calories" id="meal_calories" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_protein">タンパク質</label>
+                            <input type="number" name="meal_protein" id="meal_protein" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_fat">脂質</label>
+                            <input type="number" name="meal_fat" id="meal_fat" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_carbs">炭水化物</label>
+                            <input type="number" name="meal_carbs" id="meal_carbs" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_category">カテゴリー</label>
+                            <select name="meal_category" id="meal_category" class="form-control">
+                                <option value="1">自炊</option>
+                                <option value="2">外食</option>
+                                <option value="3">食材</option>
+                            </select>
+                        </div>
+                        <input type="submit" value="朝食を新規登録" class="btn btn-success mt-3">
+                    </form>
+                </div>
+            </div>
+
+            <div id="lunchForm" class="collapse card">
+                <form action="mealServlet" method="POST">
+                    <input type="hidden" name="meal_type" value="lunch">
+                    <label for="meal_select">昼食を選んでください：</label>
+                    <select name="meal_id" id="meal_select" class="form-control">
+                        <c:forEach var="mealOption" items="${mealOptions}">
+                            <option value="${mealOption.foodId}">${mealOption.name} - カロリー: ${mealOption.calories} kcal</option>
+                        </c:forEach>
+                    </select>
+                    <label for="eat_date">食べた日：</label>
+                    <input type="date" name="eat_date" class="form-control" required>
+                    <input type="submit" value="昼食を記録" class="btn btn-primary mt-2">
+                </form>
+
+                <!-- 食事新規登録フォーム (昼食用) -->
+                <div class="mt-4 card">
+                    <h5>昼食新規登録</h5>
+                    <form action="mealServlet" method="POST">
+                        <input type="hidden" name="meal_type" value="lunch">
+                        <div class="form-group">
+                            <label for="meal_name">食事名</label>
+                            <input type="text" name="meal_name" id="meal_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_calories">カロリー</label>
+                            <input type="number" name="meal_calories" id="meal_calories" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_protein">タンパク質</label>
+                            <input type="number" name="meal_protein" id="meal_protein" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_fat">脂質</label>
+                            <input type="number" name="meal_fat" id="meal_fat" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_carbs">炭水化物</label>
+                            <input type="number" name="meal_carbs" id="meal_carbs" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_category">カテゴリー</label>
+                            <select name="meal_category" id="meal_category" class="form-control">
+                                <option value="1">自炊</option>
+                                <option value="2">外食</option>
+                                <option value="3">食材</option>
+                            </select>
+                        </div>
+                        <input type="submit" value="昼食を新規登録" class="btn btn-success mt-3">
+                    </form>
+                </div>
+            </div>
+
+            <div id="dinnerForm" class="collapse card">
+                <form action="mealServlet" method="POST">
+                    <input type="hidden" name="meal_type" value="dinner">
+                    <label for="meal_select">夕食を選んでください：</label>
+                    <select name="meal_id" id="meal_select" class="form-control">
+                        <c:forEach var="mealOption" items="${mealOptions}">
+                            <option value="${mealOption.foodId}">${mealOption.name} - カロリー: ${mealOption.calories} kcal</option>
+                        </c:forEach>
+                    </select>
+                    <label for="eat_date">食べた日：</label>
+                    <input type="date" name="eat_date" class="form-control" required>
+                    <input type="submit" value="夕食を記録" class="btn btn-primary mt-2">
+                </form>
+
+                <!-- 食事新規登録フォーム (夕食用) -->
+                <div class="mt-4 card">
+                    <h5>夕食新規登録</h5>
+                    <form action="mealServlet" method="POST">
+                        <input type="hidden" name="meal_type" value="dinner">
+                        <div class="form-group">
+                            <label for="meal_name">食事名</label>
+                            <input type="text" name="meal_name" id="meal_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_calories">カロリー</label>
+                            <input type="number" name="meal_calories" id="meal_calories" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_protein">タンパク質</label>
+                            <input type="number" name="meal_protein" id="meal_protein" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_fat">脂質</label>
+                            <input type="number" name="meal_fat" id="meal_fat" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_carbs">炭水化物</label>
+                            <input type="number" name="meal_carbs" id="meal_carbs" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_category">カテゴリー</label>
+                            <select name="meal_category" id="meal_category" class="form-control">
+                                <option value="1">自炊</option>
+                                <option value="2">外食</option>
+                                <option value="3">食材</option>
+                            </select>
+                        </div>
+                        <input type="submit" value="夕食を新規登録" class="btn btn-success mt-3">
+                    </form>
+                </div>
+            </div>
+
+            <div id="snackForm" class="collapse card">
+                <form action="mealServlet" method="POST">
+                    <input type="hidden" name="meal_type" value="snack">
+                    <label for="meal_select">間食を選んでください：</label>
+                    <select name="meal_id" id="meal_select" class="form-control">
+                        <c:forEach var="mealOption" items="${mealOptions}">
+                            <option value="${mealOption.foodId}">${mealOption.name} - カロリー: ${mealOption.calories} kcal</option>
+                        </c:forEach>
+                    </select>
+                    <label for="eat_date">食べた日：</label>
+                    <input type="date" name="eat_date" class="form-control" required>
+                    <input type="submit" value="間食を記録" class="btn btn-primary mt-2">
+                </form>
+
+                <!-- 食事新規登録フォーム (間食用) -->
+                <div class="mt-4 card">
+                    <h5>間食新規登録</h5>
+                    <form action="mealServlet" method="POST">
+                        <input type="hidden" name="meal_type" value="snack">
+                        <div class="form-group">
+                            <label for="meal_name">食事名</label>
+                            <input type="text" name="meal_name" id="meal_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_calories">カロリー</label>
+                            <input type="number" name="meal_calories" id="meal_calories" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_protein">タンパク質</label>
+                            <input type="number" name="meal_protein" id="meal_protein" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_fat">脂質</label>
+                            <input type="number" name="meal_fat" id="meal_fat" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_carbs">炭水化物</label>
+                            <input type="number" name="meal_carbs" id="meal_carbs" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meal_category">カテゴリー</label>
+                            <select name="meal_category" id="meal_category" class="form-control">
+                                <option value="1">自炊</option>
+                                <option value="2">外食</option>
+                                <option value="3">食材</option>
+                            </select>
+                        </div>
+                        <input type="submit" value="間食を新規登録" class="btn btn-success mt-3">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+              
         <footer>
           <div class="footer clearfix mb-0 text-muted">
             <div class="float-start">
